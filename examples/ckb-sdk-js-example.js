@@ -29,8 +29,8 @@ if ( useSpeculos ) {
 }
 console.log(Transport)
 
-const LedgerCkb = require("@ledgerhq/hw-app-ckb").default;
-const blk = require("@ledgerhq/hw-app-ckb/lib/annotated.js");
+const LedgerCkb = require("@obsidiansystems/hw-app-ckb").default;
+const blk = require("@obsidiansystems/hw-app-ckb/lib/annotated.js");
 
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url

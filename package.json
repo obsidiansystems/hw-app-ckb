@@ -1,5 +1,5 @@
 {
-  "name": "@ledgerhq/hw-app-ckb",
+  "name": "@obsidiansystems/hw-app-ckb",
   "version": "5.9.0",
   "description": "Ledger Hardware Wallet Nervos CKB API",
   "keywords": [
@@ -12,10 +12,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/LedgerHQ/ledgerjs"
+    "url": "https://github.com/obsidiansystems/hw-app-ckb"
   },
   "bugs": {
-    "url": "https://github.com/LedgerHQ/ledgerjs/issues"
+    "url": "https://github.com/obsidiansystems/hw-app-ckb/issues"
   },
   "homepage": "https://github.com/LedgerHQ/ledgerjs",
   "publishConfig": {
@@ -31,14 +31,23 @@
     "blake2b-wasm": "2.1.0"
   },
   "devDependencies": {
-    "flow-bin": "^0.118.0"
+    "flow-bin": "^0.118.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "flow-copy-source": "^2.0.8",
+    "flow-typed": "^2.6.1"
   },
   "scripts": {
     "flow": "flow",
-    "clean": "bash ../../script/clean.sh",
-    "build": "bash ../../script/build.sh",
-    "watch": "bash ../../script/watch.sh",
-    "doc": "bash ../../script/doc.sh"
-  },
-  "gitHead": "fca2c7ce74fdb88df4d59dca4cc0e668410d66af"
+    "clean": "bash script/clean.sh",
+    "build": "bash script/build.sh",
+    "prepare": "bash script/build.sh",
+    "watch": "bash script/watch.sh",
+    "doc": "bash script/doc.sh",
+    "prepack": "bash script/build.sh"
+  }
 }

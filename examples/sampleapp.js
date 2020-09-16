@@ -1,5 +1,5 @@
 let Transport = require("@ledgerhq/hw-transport-node-speculos").default;
-let Ckb = require("@ledgerhq/hw-app-ckb").default;
+let Ckb = require("@obsidiansystems/hw-app-ckb").default;
 
 apduPort = 9999;
 tp=Transport.open( { apduPort } );

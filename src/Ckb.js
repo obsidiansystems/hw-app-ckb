@@ -10,7 +10,7 @@ import * as bech32 from "bech32";
  * Nervos API
  *
  * @example
- * import Ckb from "@ledgerhq/hw-app-ckb";
+ * import Ckb from "@obsidiansystems/hw-app-ckb";
  * const ckb = new Ckb(transport);
  */
 export default class Ckb {
