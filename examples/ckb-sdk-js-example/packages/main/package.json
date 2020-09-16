@@ -1,0 +1,22 @@
+{
+  "name": "main",
+  "version": "0.0.1",
+  "private": "true",
+  "description": "Ledger Hardware Wallet Nervos with SDK example",
+  "main": "bin/index.cjs",
+  "type": "commonjs",
+  "bin": {
+    "main": "bin/index.cjs"
+  },
+  "dependencies": {
+    "util": "*",
+    "hw-app-ckb": "*",
+    "@ledgerhq/hw-transport": "^5.9.0",
+    "@nervosnetwork/ckb-sdk-core": "*",
+    "@nervosnetwork/ckb-sdk-rpc": "*",
+    "@ledgerhq/hw-transport-node-speculos": "*",
+    "@ledgerhq/hw-transport-node-hid": "*"
+  },
+  "devDependencies": {
+  }
+}
