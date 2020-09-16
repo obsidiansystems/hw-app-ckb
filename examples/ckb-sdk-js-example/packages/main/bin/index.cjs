@@ -30,7 +30,7 @@ if ( useSpeculos ) {
 console.log(Transport)
 
 const LedgerCkb = require("hw-app-ckb").default;
-const blk = require("hw-app-ckb/annotated.js");
+const blk = LedgerCkb.annotated;
 
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
