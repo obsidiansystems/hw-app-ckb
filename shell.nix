@@ -2,9 +2,11 @@
 
 pkgs.mkShell {
   nativeBuildInputs = with pkgs.buildPackages; [
-    nodejs yarn pkg-config python
-    nodePackages.node-gyp
-    #nodePackages.babel
+    pkg-config python
+    nodejs-12_x
+    (yarn.override { nodejs = nodejs-12_x; })
+    nodePackages_12_x.node-gyp
+    #nodePackages_12_x.babel
   ];
   buildInputs = with pkgs; [
     libusb
