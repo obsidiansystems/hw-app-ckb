@@ -1,12 +1,10 @@
 /* eslint-disable */
 
-/* NOTE: This file is meant to be run from https://github.com/nervosnetwork/ckb-sdk-js/tree/develop/packages/ckb-sdk-core/examples
- * and works best when that repo exists as a package in ../../ (the ledgerjs/packages dir)
- */
+/* NOTE: This file needs a package.json to provide the dependencies */
 
 const util = require('util')
-const CKB = require('../lib').default
-const formatter = require('../../ckb-sdk-rpc/lib/paramsFormatter').default
+const CKB = require('@obsidiansystems/hw-app-ckb').default
+const formatter = require('@nervosnetwork/ckb-sdk-core/paramsFormatter').default
 
 // Whether to connect to a running instance of the Speculos simulator for
 // ledger apps or a real physical ledger
@@ -30,7 +28,7 @@ if ( useSpeculos ) {
 console.log(Transport)
 
 const LedgerCkb = require("@obsidiansystems/hw-app-ckb").default;
-const blk = require("@obsidiansystems/hw-app-ckb/lib/annotated.js");
+const blk = require("@obsidiansystems/hw-app-ckb/annotated.js");
 
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || 'http://localhost:8114' // example node url
