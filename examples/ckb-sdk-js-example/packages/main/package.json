@@ -6,7 +6,8 @@
   "main": "bin/index.cjs",
   "type": "commonjs",
   "bin": {
-    "main": "bin/index.cjs"
+    "main": "bin/index.cjs",
+    "change": "bin/change.cjs"
   },
   "dependencies": {
     "util": "*",
@@ -15,7 +16,9 @@
     "@nervosnetwork/ckb-sdk-core": "*",
     "@nervosnetwork/ckb-sdk-rpc": "*",
     "@ledgerhq/hw-transport-node-speculos": "*",
-    "@ledgerhq/hw-transport-node-hid": "*"
+    "@ledgerhq/hw-transport-node-hid": "*",
+    "@ckb-lumos/base": "0.7.4",
+    "@ckb-lumos/indexer": "0.7.4"
   },
   "devDependencies": {
   }
