@@ -6,13 +6,13 @@ const CKB = require('@nervosnetwork/ckb-sdk-core').default
 const { Indexer, CellCollector } = require('@ckb-lumos/indexer')
 
 const LUMOS_DB = process.env.LUMOS_DB || path.join(os.tmpdir(), 'lumos_db')
-const CKB_URL = process.env.CKB_URL || 'http://localhost:8117'
+const CKB_URL = process.env.CKB_URL || 'http://localhost:8114'
 
 const Transport = require("@ledgerhq/hw-transport-node-hid").default;
 
 const LedgerCkb = require("hw-app-ckb").default;
 
-const ckbPath = `44'/309'/0'/0/0`
+const ckbPath = `44'/309'/0'`
 
 const indexer = new Indexer(CKB_URL, LUMOS_DB)
 
@@ -23,7 +23,8 @@ const startSync = async () => {
 
 
 const bootstrap = async () => {
-  const nodeUrl = process.env.NODE_URL || 'http://localhost:8117' // example node url
+  const nodeUrl = process.env.NODE_URL || CKB_URL // example node url
+  const blockAssemblerCodeHash = '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8' // transcribe the block_assembler.code_hash in the ckb.toml from the ckb projec
 
   const ckb = new CKB(nodeUrl) // instantiate the JS SDK with provided node url
 
@@ -36,11 +37,12 @@ const bootstrap = async () => {
   const keydata = await lckb.getWalletPublicKey(ckbPath, true)
   const address = keydata.address
   const addresses = { testnetAddress: address }
+  const publicKeyHash = "0x" + keydata.lockArg
 
   /**
    * to see the addresses
    */
-  // console.log(JSON.stringify(addresses, null, 2))
+  console.log(JSON.stringify(addresses, null, 2))
 
   /**
    * calculate the lockHash by the address publicKeyHash
@@ -49,12 +51,20 @@ const bootstrap = async () => {
    * 3. calculate the hash of lock script via ckb.utils.scriptToHash method
    */
 
+  const lockScript = {
+    hashType: "type",
+    codeHash: blockAssemblerCodeHash,
+    args: publicKeyHash,
+  }
+
+  console.log('asdf')
+  // method to fetch all unspent cells by lock hash
   const locks = [
-    // "ckt1qyqgsv9xu8dkqt8c6dl4lkp9c6s3c8xd2w5s2099pz"
-    {...secp256k1Dep, args: "0x8830a6e1db602cf8d37f5fd825c6a11c1ccd53a9"},
-    // "ckt1qyq8ua6h3hjm49mteq6h2pyfrphe97jl6h4qdrp7d0"
-    {...secp256k1Dep, args: "0x7e77578de5ba976bc835750489186f92fa5fd5ea"}
+    { lockHash: "0x5882e477e92f8d17b0e0ddf7c563fff4e435c005df3993744df19c4305357f08" }
+    //lockScript,
+    //{...secp256k1Dep, args: publicKeyHash }
   ]
+  console.log(locks)
 
   const cells = await Promise.all(
     locks.map(lock => ckb.loadCells({ indexer, CellCollector, lock }))
@@ -66,7 +76,7 @@ const bootstrap = async () => {
 
   const rawTransaction = ckb.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
-    toAddress: 'ckt1qyqysrp642jfnq90jdet75xsg4nvau3jcxuqrpmukr',
+    toAddress: 'ckt1qyq9t9n5qj58wrnanafe6862t6wxeeaww3csvdfg44',
     // capacity: BigInt(9200000000),
     capacity: BigInt(40000000000),
     fee: BigInt(100000),
@@ -102,6 +112,8 @@ const bootstrap = async () => {
 
   const formatted = ckb.rpc.paramsFormatter.toRawTransaction(rawTransaction)
   const formattedCtxd = ctxds.map(ckb.rpc.paramsFormatter.toRawTransaction)
+  console.log(formatted);
+  console.log(formattedCtx);
 
   const signature1 = await lckb.signTransaction(ckbPath, formatted, [formatted.witnesses[0]], formattedCtxd, "44'/309'/0'/1/0")
   const signature2 = await lckb.signTransaction("44'/309'/0'/0/1", formatted, [formatted.witnesses[1]], formattedCtxd, "44'/309'/0'/1/0")
