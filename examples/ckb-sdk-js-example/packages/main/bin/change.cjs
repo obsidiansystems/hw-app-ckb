@@ -21,6 +21,9 @@ const startSync = async () => {
   await new Promise((resolve) => setTimeout(resolve, 200000))
 }
 
+const stopSync = () => {
+  indexer.stop()
+}
 
 const bootstrap = async () => {
   const nodeUrl = process.env.NODE_URL || CKB_URL // example node url
@@ -42,6 +45,8 @@ const bootstrap = async () => {
   /**
    * to see the addresses
    */
+  console.log(addresses.testnetAddress, 'addresses.testnetAddress')
+  console.log(publicKeyHash, 'publicKeyHash')
   console.log(JSON.stringify(addresses, null, 2))
 
   /**
@@ -57,12 +62,10 @@ const bootstrap = async () => {
     args: publicKeyHash,
   }
 
-  console.log('asdf')
   // method to fetch all unspent cells by lock hash
   const locks = [
-    { lockHash: "0x5882e477e92f8d17b0e0ddf7c563fff4e435c005df3993744df19c4305357f08" }
-    //lockScript,
-    //{...secp256k1Dep, args: publicKeyHash }
+    lockScript,
+    {...secp256k1Dep, args: publicKeyHash }
   ]
   console.log(locks)
 
@@ -71,8 +74,7 @@ const bootstrap = async () => {
   )
 
   const unspentCells = cells.flat()
-
-  console.log(addresses.testnetAddress, 'addresses.testnetAddress')
+  //console.log(unspentCells)
 
   const rawTransaction = ckb.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
@@ -85,7 +87,7 @@ const bootstrap = async () => {
     deps: ckb.config.secp256k1Dep,
   })
 
-  console.log('rawTransaction', rawTransaction)
+  //console.log('rawTransaction', rawTransaction)
 
   // const rawTransaction = ckb.generateDaoDepositTransaction({
   //   fromAddress: addresses.testnetAddress,
@@ -112,15 +114,15 @@ const bootstrap = async () => {
 
   const formatted = ckb.rpc.paramsFormatter.toRawTransaction(rawTransaction)
   const formattedCtxd = ctxds.map(ckb.rpc.paramsFormatter.toRawTransaction)
-  console.log(formatted);
-  console.log(formattedCtx);
+  //console.log(formatted);
+  //console.log(formattedCtxd);
 
   const signature1 = await lckb.signTransaction(ckbPath, formatted, [formatted.witnesses[0]], formattedCtxd, "44'/309'/0'/1/0")
   const signature2 = await lckb.signTransaction("44'/309'/0'/0/1", formatted, [formatted.witnesses[1]], formattedCtxd, "44'/309'/0'/1/0")
 
   rawTransaction.witnesses[0] = ckb.utils.serializeWitnessArgs( { lock: "0x"+signature1, inputType: '', outputType: '' });
   rawTransaction.witnesses[1] = ckb.utils.serializeWitnessArgs( { lock: "0x"+signature2, inputType: '', outputType: '' });
-  console.log('rawTransaction.witnesses', rawTransaction.witnesses)
+  //console.log('rawTransaction.witnesses', rawTransaction.witnesses)
   const realTxHash = await ckb.rpc.sendTransaction(rawTransaction).catch(err=>err)
 
   /**
@@ -131,8 +133,9 @@ const bootstrap = async () => {
 
 (async () => {
   try {
-    // await startSync()
+    stopSync()
     await bootstrap()
+    startSync()
   } catch (error) {
     console.log(error)
   }
