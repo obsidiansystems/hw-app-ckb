@@ -6,13 +6,13 @@ const CKB = require('@nervosnetwork/ckb-sdk-core').default
 const { Indexer, CellCollector } = require('@ckb-lumos/indexer')
 
 const LUMOS_DB = process.env.LUMOS_DB || path.join(os.tmpdir(), 'lumos_db')
-const CKB_URL = process.env.CKB_URL || 'http://localhost:8114'
+const CKB_URL = process.env.CKB_URL || 'http://localhost:8114';
 
 const Transport = require("@ledgerhq/hw-transport-node-hid").default;
 
 const LedgerCkb = require("hw-app-ckb").default;
 
-const ckbPath = `44'/309'/0'`
+const ckbPath = `44'/309'/0'`;
 
 const indexer = new Indexer(CKB_URL, LUMOS_DB)
 
@@ -35,7 +35,7 @@ const bootstrap = async () => {
 
   let transport = await Transport.open();
 
-  const lckb = new LedgerCkb(transport)
+  const lckb = new LedgerCkb(transport);
   
   const keydata = await lckb.getWalletPublicKey(ckbPath, true)
   const address = keydata.address

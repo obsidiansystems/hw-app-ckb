@@ -1,12 +1,14 @@
+#!/usr/bin/env node
+
 const CKB = require("@nervosnetwork/ckb-sdk-core").default;
 
-const CKB_URL = process.env.CKB_URL || "http://127.0.0.1:8117";
+const CKB_URL = process.env.CKB_URL || 'http://localhost:8114';
 
 const Transport = require("@ledgerhq/hw-transport-node-hid").default;
 
 const LedgerCkb = require("hw-app-ckb").default;
 
-const ckbPath = "44'/309'/0'/0/0";
+const ckbPath = `44'/309'/0'`;
 
 const bootstrap = async () => {
   const ckb = new CKB(CKB_URL)
@@ -16,7 +18,7 @@ const bootstrap = async () => {
   const lckb = new LedgerCkb(transport);
 
   const keydata = await lckb.getWalletPublicKey(ckbPath, true);
-  console.log(keydata);
+  console.log('keydata', keydata);
 
   const publicKeyHash = "0x" + keydata.lockArg;
   const address = keydata.address;
@@ -41,7 +43,7 @@ const bootstrap = async () => {
     cells,
   });
 
-  console.log(rawTransaction);
+  console.log('rawTransaction', rawTransaction);
 
   rawTransaction.witnesses = rawTransaction.inputs.map(() => "0x");
   rawTransaction.witnesses[0] = ckb.utils.serializeWitnessArgs({
