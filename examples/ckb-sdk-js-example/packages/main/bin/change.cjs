@@ -45,9 +45,9 @@ const bootstrap = async () => {
   /**
    * to see the addresses
    */
-  console.log(addresses.testnetAddress, 'addresses.testnetAddress')
-  console.log(publicKeyHash, 'publicKeyHash')
-  console.log(JSON.stringify(addresses, null, 2))
+  console.log('addresses.testnetAddress', addresses.testnetAddress)
+  console.log('publicKeyHash', publicKeyHash)
+  console.log('addresses', addresses)
 
   /**
    * calculate the lockHash by the address publicKeyHash
@@ -67,14 +67,14 @@ const bootstrap = async () => {
     lockScript,
     {...secp256k1Dep, args: publicKeyHash }
   ]
-  console.log(locks)
+  console.log('locks', locks)
 
   const cells = await Promise.all(
     locks.map(lock => ckb.loadCells({ indexer, CellCollector, lock }))
   )
 
   const unspentCells = cells.flat()
-  //console.log(unspentCells)
+  console.log('unspentCells', unspentCells)
 
   const rawTransaction = ckb.generateRawTransaction({
     fromAddress: addresses.testnetAddress,
@@ -87,7 +87,8 @@ const bootstrap = async () => {
     deps: ckb.config.secp256k1Dep,
   })
 
-  //console.log('rawTransaction', rawTransaction)
+  console.log('rawTransaction', rawTransaction)
+  console.log('rawTransaction.inputs', rawTransaction.inputs)
 
   // const rawTransaction = ckb.generateDaoDepositTransaction({
   //   fromAddress: addresses.testnetAddress,
