@@ -64,13 +64,14 @@ const bootstrap = async () => {
 
   // method to fetch all unspent cells by lock hash
   const locks = [
-    lockScript,
-    {...secp256k1Dep, args: publicKeyHash }
+    { lockHash: ckb.utils.scriptToHash(lockScript) },
+    //lockScript,
+    //{...secp256k1Dep, args: publicKeyHash }
   ]
   console.log('locks', locks)
 
   const cells = await Promise.all(
-    locks.map(lock => ckb.loadCells({ indexer, CellCollector, lock }))
+    locks.map(lock => ckb.loadCells(lock /*{ indexer, CellCollector, lock }*/))
   )
 
   const unspentCells = cells.flat()
