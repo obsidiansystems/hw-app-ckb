@@ -286,11 +286,20 @@ export function SerializeAnnotatedRawTransaction(value) {
   if(typeof value === "object" && value !== null && "view" in value) return value.view.buffer;
   const buffers = [];
   buffers.push(SerializeUint32(value.version));
-  buffers.push(SerializeCellDepVec(value.cell_deps));
-  buffers.push(SerializeByte32Vec(value.header_deps));
+  if (value.cellDeps)
+    buffers.push(SerializeCellDepVec(value.cellDeps));
+  else
+    buffers.push(SerializeCellDepVec(value.cell_deps));
+  if (value.headerDeps)
+    buffers.push(SerializeByte32Vec(value.headerDeps));
+  else
+    buffers.push(SerializeByte32Vec(value.header_deps));
   buffers.push(SerializeAnnotatedCellInputVec(value.inputs));
   buffers.push(SerializeCellOutputVec(value.outputs));
-  buffers.push(SerializeBytesVec(value.outputs_data));
+  if (value.outputsData)
+    buffers.push(SerializeBytesVec(value.outputsData));
+  else
+    buffers.push(SerializeBytesVec(value.outputs_data));
   return serializeTable(buffers);
 }
 
@@ -865,9 +874,15 @@ export class Script {
 export function SerializeScript(value) {
   if(typeof value === "object" && value !== null && "view" in value) return value.view.buffer;
   const buffers = [];
-  buffers.push(SerializeByte32(value.code_hash));
+  if (value.codeHash)
+    buffers.push(SerializeByte32(value.codeHash));
+  else
+    buffers.push(SerializeByte32(value.code_hash));
   const hashTypeView = new DataView(new ArrayBuffer(1));
-  hashTypeView.setUint8(0, fromStringEnum(value.hash_type));
+  if (value.hashType)
+    hashTypeView.setUint8(0, fromStringEnum(value.hashType));
+  else
+    hashTypeView.setUint8(0, fromStringEnum(value.hash_type));
   buffers.push(hashTypeView.buffer)
   buffers.push(SerializeBytes(value.args));
   return serializeTable(buffers);
@@ -946,7 +961,10 @@ export class OutPoint {
 export function SerializeOutPoint(value) {
   if(typeof value === "object" && value !== null && "view" in value) return value.view.buffer;
   const array = new Uint8Array(0 + Byte32.size() + Uint32.size());
-  array.set(new Uint8Array(SerializeByte32(value.tx_hash)), 0);
+  if (value.txHash)
+    array.set(new Uint8Array(SerializeByte32(value.txHash)), 0);
+  else
+    array.set(new Uint8Array(SerializeByte32(value.tx_hash)), 0);
   array.set(new Uint8Array(SerializeUint32(value.index)), 0 + Byte32.size());
   return array.buffer;
 }
@@ -988,7 +1006,10 @@ export function SerializeCellInput(value) {
   if(typeof value === "object" && value !== null && "view" in value) return value.view.buffer;
   const array = new Uint8Array(0 + Uint64.size() + OutPoint.size());
   array.set(new Uint8Array(SerializeUint64(value.since)), 0);
-  array.set(new Uint8Array(SerializeOutPoint(value.previous_output)), 0 + Uint64.size());
+  if (value.previousOutput)
+    array.set(new Uint8Array(SerializeOutPoint(value.previousOutput)), 0 + Uint64.size());
+  else
+    array.set(new Uint8Array(SerializeOutPoint(value.previous_output)), 0 + Uint64.size());
   return array.buffer;
 }
 
@@ -1312,11 +1333,20 @@ export function SerializeRawTransaction(value) {
   if(typeof value === "object" && value !== null && "view" in value) return value.view.buffer;
   const buffers = [];
   buffers.push(SerializeUint32(value.version));
-  buffers.push(SerializeCellDepVec(value.cell_deps));
-  buffers.push(SerializeByte32Vec(value.header_deps));
+  if (value.cellDeps)
+    buffers.push(SerializeCellDepVec(value.cellDeps));
+  else
+    buffers.push(SerializeCellDepVec(value.cell_deps));
+  if (value.headerDeps)
+    buffers.push(SerializeByte32Vec(value.headerDeps));
+  else
+    buffers.push(SerializeByte32Vec(value.header_deps));
   buffers.push(SerializeCellInputVec(value.inputs));
   buffers.push(SerializeCellOutputVec(value.outputs));
-  buffers.push(SerializeBytesVec(value.outputs_data));
+  if (value.outputsData)
+    buffers.push(SerializeBytesVec(value.outputsData));
+  else
+    buffers.push(SerializeBytesVec(value.outputs_data));
   return serializeTable(buffers);
 }
 
@@ -1413,8 +1443,13 @@ export function SerializeWitnessArgs(value) {
   if(typeof value === "object" && value !== null && "view" in value) return value.view.buffer;
   const buffers = [];
   buffers.push(SerializeBytesOpt(value.lock));
-  buffers.push(SerializeBytesOpt(value.input_type));
-  buffers.push(SerializeBytesOpt(value.output_type));
+  if (value.inputType)
+    buffers.push(SerializeBytesOpt(value.inputType));
+  else
+    buffers.push(SerializeBytesOpt(value.input_type));
+  if (value.outputType)
+    buffers.push(SerializeBytesOpt(value.outputType));
+  else
+    buffers.push(SerializeBytesOpt(value.output_type));
   return serializeTable(buffers);
 }
-
