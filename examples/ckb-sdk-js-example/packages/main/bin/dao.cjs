@@ -4,16 +4,35 @@ const CKB = require("@nervosnetwork/ckb-sdk-core").default;
 
 const CKB_URL = process.env.CKB_URL || 'http://localhost:8114';
 
-const Transport = require("@ledgerhq/hw-transport-node-hid").default;
-
 const LedgerCkb = require("hw-app-ckb").default;
 
 const ckbPath = `44'/309'/0'`;
 
+// Whether to connect to a running instance of the Speculos simulator for
+// ledger apps or a real physical ledger
+const useSpeculos = false
+
+let Transport = null
+if ( useSpeculos ) {
+  // For speculos:
+  Transport = require("@ledgerhq/hw-transport-node-speculos").default;
+} else {
+  // For a real ledger:
+  Transport = require("@ledgerhq/hw-transport-node-hid").default;
+}
+console.log(Transport)
+
 const bootstrap = async () => {
   const ckb = new CKB(CKB_URL)
 
-  let transport = await Transport.open();
+  let transport = null
+  if ( useSpeculos ) {
+    // To connect to a speculos instance:
+    apduPort = 9999;
+    transport = await Transport.open( { apduPort } );
+  } else {
+    transport = await Transport.open();
+  }
 
   const lckb = new LedgerCkb(transport);
 
@@ -66,6 +85,13 @@ const bootstrap = async () => {
   const formattedCtxd = ctxds.map(ckb.rpc.paramsFormatter.toRawTransaction);
 
   try {
+    console.log('annotatedTransaction', JSON.stringify(lckb.buildAnnotatedTransaction(
+      ckbPath,
+      formatted,
+      formatted.witnesses,
+      formattedCtxd,
+      ckbPath
+    )));
     const signature = await lckb.signTransaction(
       ckbPath,
       formatted,

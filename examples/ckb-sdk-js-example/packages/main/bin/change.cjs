@@ -114,6 +114,11 @@ const bootstrap = async () => {
   // fetch all the context transactions
   ctxds = (await Promise.all(rawTransaction.inputs.map(a=>ckb.rpc.getTransaction(a.previousOutput.txHash)))).map(a=>a.transaction)
 
+  for (ctdx in ctxds) {
+    console.log('ctdx', ctdx)
+    console.log('ctdx.inputs', ctdx.inputs)
+  }
+
   const formatted = ckb.rpc.paramsFormatter.toRawTransaction(rawTransaction)
   const formattedCtxd = ctxds.map(ckb.rpc.paramsFormatter.toRawTransaction)
   //console.log(formatted);
