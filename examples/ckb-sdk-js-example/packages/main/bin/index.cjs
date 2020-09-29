@@ -50,12 +50,12 @@ const bootstrap = async () => {
   }
 
   const lckb = new LedgerCkb(transport)
-  
+
   const keydata = await lckb.getWalletPublicKey("44'/309'/0'/0/0", true)
   const publicKeyHash = "0x" + keydata.lockArg
   const address = keydata.address
   addresses = { testnetAddress: address }
-  
+
   /**
    * to see the addresses
    */
