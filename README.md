@@ -5,6 +5,11 @@
 
 Ledger Hardware Wallet CKB JavaScript bindings.
 
+## Maintainers and packagers
+
+Please see the [changelog](./ChangeLog.md) and [release docs](./Releasing.md)
+for this package.
+
 ## Using LedgerJS for CKB
 
 Here is a sample app for Node:
