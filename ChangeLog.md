@@ -3,11 +3,21 @@
 This project's release branch is `master`.
 This log is written from the perspective of the release branch: when changes hit `master`, they are considered released.
 
+## v0.1.1 - 2020-10-26
+
+Primarily a bugfix release.
+
+- All compiled files are now included in release tarballs after `yarn pack`.
+- A specific version of Nixpkgs is now pinned in `shell.nix` for developer
+  convenience.
+- Ledger app version hash parsing in `getAppConfiguration` has been fixed.
+- Release process documentation is now included.
+
 ## v0.1.0 - 2020-09-30
 
 This is the first release since moving this to its own repo from https://github.com/obsidiansystems/ledgerjs/tree/nervos.
 
-## Release Notes
+### Release Notes
 - Small discrepancies in the Nervos schemas between the RPC and Lumos have been worked around.
 - Added `package.yaml`s for examples project and for example workspace.
 
