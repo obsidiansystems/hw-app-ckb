@@ -281,7 +281,7 @@ export default class Ckb {
     const result = {};
     result.version =
       "" + response1[0] + "." + response1[1] + "." + response1[2];
-    result.hash = response2.toString("hex");
+    result.hash = response2.slice(0,-3).toString(); // Strip off null and 0x9000
 
     return result;
   }
