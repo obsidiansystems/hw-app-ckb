@@ -3,6 +3,13 @@
 This project's release branch is `master`.
 This log is written from the perspective of the release branch: when changes hit `master`, they are considered released.
 
+## v0.1.2 - 2020-11-18
+
+Includes the bug fix merged in [!10](https://github.com/obsidiansystems/hw-app-ckb/pull/10)
+
+This release has been tested with:
+- Nervos Ledger App: [v0.5.1 - 61435fe19c722a0445ac3743cc42b84139842c33](https://github.com/obsidiansystems/ledger-app-nervos/releases/tag/v0.5.1)
+
 ## v0.1.1 - 2020-10-26
 
 Primarily a bugfix release.
@@ -23,4 +30,4 @@ This is the first release since moving this to its own repo from https://github.
 
 This release has been tested with:
 - Nervos Ledger App: [v0.5.0 - 88026362a0bbf096ae911f33be5149415a2a7c77](https://github.com/obsidiansystems/ledger-app-nervos/releases/tag/v0.5.0)
- - CKB-CLI: [b460c998d6681a89a47b3af203ecc5f12d7b2507](https://github.com/obsidiansystems/ckb-cli/commit/b460c998d6681a89a47b3af203ecc5f12d7b2507)
+- CKB-CLI: [b460c998d6681a89a47b3af203ecc5f12d7b2507](https://github.com/obsidiansystems/ckb-cli/commit/b460c998d6681a89a47b3af203ecc5f12d7b2507)
