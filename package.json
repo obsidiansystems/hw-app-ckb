@@ -21,7 +21,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [ "*" ],
+  "files": ["lib"],
   "main": "lib/Ckb.js",
   "module": "lib-es/Ckb.js",
   "license": "Apache-2.0",
